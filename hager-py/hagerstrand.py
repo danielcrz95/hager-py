@@ -118,8 +118,7 @@ class SimpleDiffusion(Diffusion):
         self.result = np.zeros((M,N,max_iter),dtype=np.int8)
         for c in initial_diff:
             if c[0] > M or c[1] > N:
-                raise ValueError("Las coordenadas de los difusores iniciales no \
-                                caen en el espacio")
+                raise ValueError("The coordinates on the starting difusors do not bbelong to the space")
             #Modificamos también a los pobladores originales:
             index = self._space2pop_index(c)
             self._pop_array[index][0] = True
