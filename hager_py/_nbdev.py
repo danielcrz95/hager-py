@@ -8,8 +8,8 @@ index = {"Diffusion": "00_hagerstrand.ipynb",
 
 modules = ["hagerstrand.py"]
 
-doc_url = "https://pages.github.CentroGeo.com./hager_py/hager_py/"
+doc_url = "https://CentroGeo.github.io/hager_py/"
 
-git_url = "https://github.CentroGeo.com/hager_py/hager_py/tree/main/"
+git_url = "https://github.com/CentroGeo/hager_py/tree/main/"
 
 def custom_doc_links(name): return None
