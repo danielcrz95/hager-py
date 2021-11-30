@@ -400,7 +400,7 @@ class AdvancedDiffusion(Diffusion):
         delta = (delta[0] - int(self.mif_size/2+0.5),delta[1] - int(self.mif_size/2+0.5))
         space_adress = self._pop2space_index(adress[0])
         prop_space_adress = (space_adress[0] + delta[0],
-                              space_adress[1] + delta[1])
+                             space_adress[1] + delta[1])
         try:
             # print(prop_space_adress[0],prop_space_adress[1])
             # print(self.space[prop_space_adress[0],prop_space_adress[1]])
@@ -417,12 +417,14 @@ class AdvancedDiffusion(Diffusion):
         """
 
         #checo si es no-adoptante
-        if self._pop_array[pob_adress[0]][pob_adress[1]] == False:
-            self._pop_array[pob_adress[0]][pob_adress[1]] = True
-            self._tmp_adopted.append(pob_adress)
-            #print "infecté al "  + str(pob_adress)
-
-        else:
+        try:
+            if self._pop_array[pob_adress[0]][pob_adress[1]] == False:
+                self._pop_array[pob_adress[0]][pob_adress[1]] = True
+                self._tmp_adopted.append(pob_adress)
+            else:
+                pass
+        except IndexError:
+            # This means we are infecting someone outside the space
             pass
 
     def _clean_adopters(self):
