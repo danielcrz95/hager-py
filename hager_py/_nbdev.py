@@ -10,6 +10,6 @@ modules = ["hagerstrand.py"]
 
 doc_url = "https://CentroGeo.github.io/hager_py/"
 
-git_url = "https://github.com/CentroGeo/hager_py/tree/main/"
+git_url = "https://github.com/CentroGeo/hager_py/tree/master/"
 
 def custom_doc_links(name): return None
