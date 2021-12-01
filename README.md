@@ -14,7 +14,7 @@ This file will become your README and also the index of your documentation.
 
 Fill me in please! Don't forget code examples:
 
-```python
+```
 1+1
 ```
 
@@ -25,11 +25,11 @@ Fill me in please! Don't forget code examples:
 
 
 
-```python
+```
 s= SimpleDiffusion(100,100,5,20,[(20,20)],0.2,20)
 ```
 
-```python
+```
 s.mixed_diffusion(0.7)
 ```
 
