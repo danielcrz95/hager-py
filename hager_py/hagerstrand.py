@@ -345,7 +345,7 @@ class AdvancedDiffusion(Diffusion):
         self.space = np.zeros((self.N,self.N),dtype=np.int8)
         points = self.N * np.random.random((2, self.densidad ** 2))
         self.space[(points[0]).astype(np.int), (points[1]).astype(np.int)] = 1
-        self.space = filters.gaussian_filter(self.space, sigma= self.N / (self.amplitud * self.densidad))
+        self.space = filters.gaussian(self.space, sigma= self.N / (self.amplitud * self.densidad))
         #reescalamos al valor de la pob máxima y convertimos a entero:
         self.space *= self._pob / self.space.max()
         self.space = self.space.astype(np.int8)
@@ -374,7 +374,7 @@ class AdvancedDiffusion(Diffusion):
 
     def _pop2space_index(self,index):
         """Regresa la tupla (i,j) que corresponde al índice aplanado."""
-        return np.unravel_index(index,dims=(self.N,self.N))
+        return np.unravel_index(index,(self.N,self.N))
 
     def _mif2delta(self,index):
         """Regresa un tupla con los incrementos para llegar al cuadro propagado."""
@@ -397,11 +397,13 @@ class AdvancedDiffusion(Diffusion):
 
         #print "Propagó: " + str(adress)
         delta = self._select_from_mif()
-        delta = (delta[0] - self.mif_size/2,delta[1] - self.mif_size/2)
+        delta = (delta[0] - int(self.mif_size/2+0.5),delta[1] - int(self.mif_size/2+0.5))
         space_adress = self._pop2space_index(adress[0])
         prop_space_adress = (space_adress[0] + delta[0],
-                              space_adress[1] + delta[1])
+                             space_adress[1] + delta[1])
         try:
+            # print(prop_space_adress[0],prop_space_adress[1])
+            # print(self.space[prop_space_adress[0],prop_space_adress[1]])
             habitant = randint(0,self.space[prop_space_adress[0],prop_space_adress[1]])
             return (self._space2pop_index(prop_space_adress),habitant)
         except ValueError as e:
@@ -415,12 +417,14 @@ class AdvancedDiffusion(Diffusion):
         """
 
         #checo si es no-adoptante
-        if self._pop_array[pob_adress[0]][pob_adress[1]] == False:
-            self._pop_array[pob_adress[0]][pob_adress[1]] = True
-            self._tmp_adopted.append(pob_adress)
-            #print "infecté al "  + str(pob_adress)
-
-        else:
+        try:
+            if self._pop_array[pob_adress[0]][pob_adress[1]] == False:
+                self._pop_array[pob_adress[0]][pob_adress[1]] = True
+                self._tmp_adopted.append(pob_adress)
+            else:
+                pass
+        except IndexError:
+            # This means we are infecting someone outside the space
             pass
 
     def _clean_adopters(self):
