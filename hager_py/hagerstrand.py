@@ -13,7 +13,7 @@ sys.setrecursionlimit(11500)
 
 # Cell
 class Diffusion(object):
-    """Clase general para tdodos los tipos de difusión."""
+    """General class for all types of diffusion"""
     #por lo pronto solo la creación del espacio se deriva a las clases hijas?
     def __init__(self,mif_size=5,pob=20,initial_diff=[(50,50)],
                 p0=0.3, max_iter=15):
@@ -30,7 +30,7 @@ class Diffusion(object):
         self.mif_size = mif_size
 
     def initialize_mif(self,mif_size):
-        """Inicializa el MIF"""
+        """Initialize the MIF"""
         x = np.linspace(0.5,mif_size - 0.5,mif_size)
         y = np.linspace(0.5,mif_size - 0.5,mif_size)
         xv,yv = np.meshgrid(x,y)
@@ -40,7 +40,7 @@ class Diffusion(object):
         #print(center)
         dist = cdist(center,points)
         dist = dist/np.sum(dist)
-        #TODO: tiene que ser diferente para respetar el p0 del usuario
+        #Everything: has to be different to respect the user's p0
         # print(type(mif_size), type(mif_size/2), mif_size/2)
         dist.reshape(mif_size, mif_size)[int(mif_size/2 + 0.5), int(mif_size/2 + 0.5)] = self._p0
         dist = dist/np.sum(dist)
@@ -48,18 +48,18 @@ class Diffusion(object):
 
 
     def _mif2delta(self,index):
-        """Regresa un tupla con los incrementos para llegar al cuadro propagado."""
+        """Returns a tuple with the increments to get to the propagated frame."""
 
         return np.unravel_index(index,(self.mif_size,self.mif_size))
 
     def _select_from_mif(self):
-        """Regresa una dirección (pob_adress) a partir del MIF."""
+        """Returns an address (pob_adress) from the MIF."""
         rnd = uniform(0,1)
         index = np.nonzero(self._mif>rnd)[0][0]
         return self._mif2delta(index)
 
     def _clean_adopters(self):
-        """Limpia e inicializa antes de una nueva simulación."""
+        """Clean and initialize before a new simulation."""
 
         self._infected_pop = []
         self._tmp_adopted = []
@@ -68,7 +68,7 @@ class Diffusion(object):
         self.time_series = []
         for c in self._initial_diff:
             self.space[c[0],c[1]] = 1
-            #Modificamos también a los pobladores originales:
+            #We also modify the original settlers:
             index = self._space2pop_index(c)
             self._pop_array[index][0] = True
             self._infected_pop.append((index,0))
