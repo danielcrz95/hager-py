@@ -58,7 +58,7 @@ defaults:
 
 sidebars:
 - home_sidebar
-permalink: pretty
+#permalink: pretty
 
 theme: jekyll-theme-slate
 baseurl: /hager_py/
