@@ -300,46 +300,41 @@ class SimpleDiffusion(Diffusion):
 
 # Cell
 class AdvancedDiffusion(Diffusion):
-    """Modelo de difusión espacial basado en Hägerstrand, con espacio heterogéneo.
-    1.- Espacio isotrópico
-    2.- Un sólo difusor inicial
-    3.- ....otras suposiciones...
-    :param N: int Número de renglones y columnas en el espacio de simulación
-    :param mif_size: int Tamaño de la matriz (cuadrada) del MIF (debe ser non)
-    :param pob: int población máxima en cada celda
-    :param densidad: int Cantidad de núcleos iniciales de población.
-    :param amplitud: float Amplitud del filtro gaussiano para difuminar la población.
-    :param initial_diff: [(int,int)] Lista de coordenadas de los difusores
-                                     iniciales
-    :param p0: float Probabilidad de auto-difusión
-    :param max_iter: int Máximo número de iteraciones
-    :attribute space: np.array(N,N,dtype=np.int8) El espacio disponible
-    :attribute _pop_array: np.array(N*N,pob,dtype=np.bool) array de habitantes
-                           en cada celda
-    :attribute _infected_pop: list (space_idx,int) Lista de los índices de las
-                                celdas adoptantes. La primera entrada es el
-                                índice aplanado de la celda en la matriz space y
-                                la segunda es el número del poblador en
-                                pop_array. Es decir, la lista de las direcciones
-                                de cada poblador infectado.
-    :attribute results: np.array((N,N,max_iter)) Guarda los resultados de cada
-                        iteración.
-    :attribute time_series: list int Propagaciones por cada iteración
-    :attribute _clean: bool Indica si tenemos resultados guardados .
+    """Hägerstrand-based spatial diffusion model, with heterogeneous space.
+    1.- Isotropic space
+    2.- A single initial diffuser
+    3.- .... Other assumptions ...
+    :param N: int Number of rows and columns in the simulation space.
+    :param mif_size: int MIF matrix size (square) (must be odd).
+    :param pob: int maximum population at each cell.
+    :param density: int Number of Number of initial population nuclei.
+    :param amplitud: float Gaussian filter width to blur the population.
+    :param initial_diff: [(int,int)] Coordinate list of start diffusers
+    :param p0: float Auto-difussion probability
+    :param max_iter: int Maximum number of iterations
+    :attribute space: np.array(N,N,dtype=np.int8) Available space
+    :attribute _pop_array: np.array(N*N,pob,dtype=np.bool) array of inhabitants in each cell
+    :attribute _infected_pop: list (space_idx,int) List of adoptive cell indices.
+                                The first entry is the flattened index of the cell in the space matrix
+                                and the second is the number of the settler in pop_array. That is,
+                                the list of addresses of each infected resident.
+    :attribute results: np.array((N,N,max_iter)) Save results of each iteration.
+    :attribute time_series: list int Propagation of each iteration.
+    :attribute _clean: bool Indicates if Indicates if there are saved results.
     """
 
     def __init__(self,N=100,mif_size=5,pob=20,initial_diff=[(50,50)],
-                p0=0.3, max_iter=25,densidad=20,amplitud=4.0):
+                p0=0.3, max_iter=25,density=20,amplitud=4.0):
         super(AdvancedDiffusion,self).__init__(mif_size,pob,initial_diff, p0,
                                                 max_iter)
         self.N = N
-        self.densidad = densidad
+        self.density = density
         self.amplitud = amplitud
         self.space = np.zeros((self.N,self.N),dtype=np.int8)
-        points = self.N * np.random.random((2, self.densidad ** 2))
+        points = self.N * np.random.random((2, self.density ** 2))
         self.space[(points[0]).astype(np.int), (points[1]).astype(np.int)] = 1
-        self.space = filters.gaussian(self.space, sigma= self.N / (self.amplitud * self.densidad))
-        #reescalamos al valor de la pob máxima y convertimos a entero:
+        self.space = filters.gaussian(self.space, sigma= self.N / (self.amplitud * self.density))
+        # We rescale to the value of the maximum pop and convert to integer:
         self.space *= self._pob / self.space.max()
         self.space = self.space.astype(np.int8)
         self._pop_array = np.zeros((len(np.ravel(self.space)),self._pob),
@@ -347,48 +342,46 @@ class AdvancedDiffusion(Diffusion):
         self.result = np.zeros((self.N,self.N,max_iter),dtype=np.int8)
         for c in initial_diff:
             if c[0] > self.N or c[1] > self.N:
-                raise ValueError("Las coordenadas de los difusores iniciales no \
-                                caen en el espacio")
-            #Modificamos también a los pobladores originales:
+                raise ValueError("Coordinates of initial diffusers do not fall in space")
+            # We also modify original settlers:
             index = self._space2pop_index(c)
             self._pop_array[index][0] = True
             self._infected_pop.append((index,0))
 
         if self.mif_size%2 == 0:
-            raise ValueError("El tamaño del MIF debe ser non")
+            raise ValueError("MIF size must be odd")
         else:
             self._mif = self.initialize_mif(self.mif_size)
 
     def _space2pop_index(self,index):
-        """Transforma el índice de space en el índice del pop_array.
-        :param index (int,int) el ínidice a transformar
+        """Transform the index of space into the index of the pop_array.
+        :param index (int,int) index to transform
         """
         return np.ravel_multi_index(index,dims=(self.N,self.N))
 
     def _pop2space_index(self,index):
-        """Regresa la tupla (i,j) que corresponde al índice aplanado."""
+        """Returns the tuple (i, j) that corresponds to the flattened index."""
         return np.unravel_index(index,(self.N,self.N))
 
     def _mif2delta(self,index):
-        """Regresa un tupla con los incrementos para llegar al cuadro propagado."""
+        """Returns the tuple with the increments to get to the propagated frame."""
         return super(AdvancedDiffusion,self)._mif2delta(index)
 
     def _select_from_mif(self):
-        """Regresa una dirección (pob_adress) a partir del MIF."""
+        """Returns an address (pob_adress) from the MIF."""
         return super(AdvancedDiffusion,self)._select_from_mif()
 
     def _random_adress(self):
-        """Regresa una dirección (pob_adress) al azar."""
+        """Returns a random address (pob_adress)."""
         i = randint(0,self.N - 1)
         j = randint(0,self.N - 1)
         pop_idx = self._space2pop_index((i,j))
-        #space_idx = self._pop2space_index(i*j)
         return (pop_idx,randint(0,self.space[i,j] - 1))
 
     def _get_propagation_adress(self,adress):
-        """Regresa una dirección pop_adress propagada por el MIF"""
+        """Returns an address propagated from the MIF (pop_adress)."""
 
-        #print "Propagó: " + str(adress)
+        #print "Propagates: " + str(adress)
         delta = self._select_from_mif()
         delta = (delta[0] - int(self.mif_size/2+0.5),delta[1] - int(self.mif_size/2+0.5))
         space_adress = self._pop2space_index(adress[0])
@@ -403,13 +396,13 @@ class AdvancedDiffusion(Diffusion):
             return self._get_propagation_adress(adress)
 
     def _propagate(self,pob_adress):
-        """Propaga hacia el habitante en pob_adress si es no-adoptante.
-        :param pob_adress: (int,int) la dirección del habitante a propagar.
-                            La primera entrada es el índice (aplanado) en space
-                            y la segunda es el número del poblador en la celda
+        """Propagates through inhabitant in pob_adress if it is not-adoptant.
+        :param pob_adress: (int,int) The direction of inhabitant to propagate.
+                            The first entry is the index (flattened) in space
+                            and the second is the number of the settler in the cell
         """
 
-        #checo si es no-adoptante
+        # Check if it is not-adoptant
         try:
             if self._pop_array[pob_adress[0]][pob_adress[1]] == False:
                 self._pop_array[pob_adress[0]][pob_adress[1]] = True
@@ -421,22 +414,22 @@ class AdvancedDiffusion(Diffusion):
             pass
 
     def _clean_adopters(self):
-        """Limpia e inicializa antes de una nueva simulación."""
+        """Clean and initialize before start a new simulation."""
         return super(AdvancedDiffusion,self)._clean_adopters()
 
     def spatial_diffusion(self):
-        """Propaga al estilo Hagerstrand."""
+        """Propagates Hagerstrand like."""
 
-        #Si ya tenemos resultados hay que limpiar e inicializar
+        # If we have results already, we must to clean and initialize
         if self._clean:
             self._clean_adopters()
 
         if self.iteration == (self.max_iter or
                               np.sum(self._pop_array) >= self.M*self.N*self._pob):
-            print("acabé")
-            print("Hay %i adoptantes de un total de %i habitantes" \
+            print("Done")
+            print("There are %i adoptants from a total of %i inhabitants" \
                     % (np.sum(self._pop_array),self.N * self.N * self._pob))
-            print("El total de iteraciones realizadas es %i" % self.iteration)
+            print("The total number of iterations performed is %i" % self.iteration)
             self.iteration = 0
             self._clean = True
             return None
@@ -455,7 +448,7 @@ class AdvancedDiffusion(Diffusion):
             return self.spatial_diffusion()
 
     def random_diffusion(self):
-        """Propaga aleatoriamente en el espacio."""
+        """Propagates randomly in space."""
 
         #Si ya tenemos resultados hay que limpiar e inicializar
         if self._clean:
@@ -464,10 +457,10 @@ class AdvancedDiffusion(Diffusion):
         if self.iteration == (self.max_iter or
                               np.sum(self._pop_array) >= self.N*self.N*self._pob):
             #self.space = np.sum(s._pop_array,axis=1).reshape(s.M,s.N)
-            print("acabé")
-            print("Hay %i adoptantes de un total de %i habitantes" \
+            print("Done")
+            print("There are %i adoptants from a total of %i inhabitantes" \
                     % (np.sum(self._pop_array),self.N*self.N*self._pob))
-            print("El total de iteraciones realizadas es %i" % self.iteration)
+            print("The total number of iterations performed is %i" % self.iteration)
             self.iteration = 0
             self._clean = True
             return None
@@ -475,14 +468,12 @@ class AdvancedDiffusion(Diffusion):
             for adress in self._infected_pop:
                 rand_adress = self._random_adress()
                 if adress == rand_adress:
-                    #TODO: hay que cambiar, podría pasar obtener dos veces
-                    #el mismo
+                    #TODO: must change, it could obtain twice the same
                     rand_adress = self._random_adress()
 
                 self._propagate(rand_adress)
 
             self._infected_pop.extend(self._tmp_adopted)
-            #print "Hay %i adoptantes" % len(self._infected_pop)
             self.result[:,:,self.iteration] = np.sum(self._pop_array,
                                                 axis=1).reshape(self.N,self.N)
             self.time_series.append(len(self._tmp_adopted))

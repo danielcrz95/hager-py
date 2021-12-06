@@ -26,6 +26,21 @@ nb_path: "00_hagerstrand.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/david/.local/lib/python3.8/site-packages/skimage/io/manage_plugins.py:23: UserWarning: Your installed pillow version is &lt; 7.1.0. Several security issues (CVE-2020-11538, CVE-2020-10379, CVE-2020-10994, CVE-2020-10177) have been fixed in pillow 7.1.0 or higher. We recommend to upgrade this library.
+  from .collection import imread_collection_wrapper
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
     {% endraw %}
 
@@ -208,34 +223,29 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AdvancedDiffusion" class="doc_header"><code>class</code> <code>AdvancedDiffusion</code><a href="https://github.com/CentroGeo/hager_py/tree/master/hager_py/hagerstrand.py#L302" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AdvancedDiffusion</code>(<strong><code>N</code></strong>=<em><code>100</code></em>, <strong><code>mif_size</code></strong>=<em><code>5</code></em>, <strong><code>pob</code></strong>=<em><code>20</code></em>, <strong><code>initial_diff</code></strong>=<em><code>[(50, 50)]</code></em>, <strong><code>p0</code></strong>=<em><code>0.3</code></em>, <strong><code>max_iter</code></strong>=<em><code>25</code></em>, <strong><code>densidad</code></strong>=<em><code>20</code></em>, <strong><code>amplitud</code></strong>=<em><code>4.0</code></em>) :: <a href="/hager_py/hagerstrand.html#Diffusion"><code>Diffusion</code></a></p>
+<h2 id="AdvancedDiffusion" class="doc_header"><code>class</code> <code>AdvancedDiffusion</code><a href="https://github.com/CentroGeo/hager_py/tree/master/hager_py/hagerstrand.py#L309" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AdvancedDiffusion</code>(<strong><code>N</code></strong>=<em><code>100</code></em>, <strong><code>mif_size</code></strong>=<em><code>5</code></em>, <strong><code>pob</code></strong>=<em><code>20</code></em>, <strong><code>initial_diff</code></strong>=<em><code>[(50, 50)]</code></em>, <strong><code>p0</code></strong>=<em><code>0.3</code></em>, <strong><code>max_iter</code></strong>=<em><code>25</code></em>, <strong><code>density</code></strong>=<em><code>20</code></em>, <strong><code>amplitud</code></strong>=<em><code>4.0</code></em>) :: <a href="/hager_py/hagerstrand.html#Diffusion"><code>Diffusion</code></a></p>
 </blockquote>
-<p>Modelo de difusión espacial basado en Hägerstrand, con espacio heterogéneo.
-1.- Espacio isotrópico
-2.- Un sólo difusor inicial
-3.- ....otras suposiciones...
-:param N: int Número de renglones y columnas en el espacio de simulación
-:param mif_size: int Tamaño de la matriz (cuadrada) del MIF (debe ser non)
-:param pob: int población máxima en cada celda
-:param densidad: int Cantidad de núcleos iniciales de población.
-:param amplitud: float Amplitud del filtro gaussiano para difuminar la población.
-:param initial_diff: [(int,int)] Lista de coordenadas de los difusores
-                                 iniciales
-:param p0: float Probabilidad de auto-difusión
-:param max_iter: int Máximo número de iteraciones
-:attribute space: np.array(N,N,dtype=np.int8) El espacio disponible
-:attribute _pop_array: np.array(N*N,pob,dtype=np.bool) array de habitantes
-                       en cada celda
-:attribute _infected_pop: list (space_idx,int) Lista de los índices de las
-                            celdas adoptantes. La primera entrada es el
-                            índice aplanado de la celda en la matriz space y
-                            la segunda es el número del poblador en
-                            pop_array. Es decir, la lista de las direcciones
-                            de cada poblador infectado.
-:attribute results: np.array((N,N,max_iter)) Guarda los resultados de cada
-                    iteración.
-:attribute time_series: list int Propagaciones por cada iteración
-:attribute _clean: bool Indica si tenemos resultados guardados .</p>
+<p>Hägerstrand-based spatial diffusion model, with heterogeneous space.
+1.- Isotropic space
+2.- A single initial diffuser
+3.- .... Other assumptions ...
+:param N: int Number of rows and columns in the simulation space.
+:param mif_size: int MIF matrix size (square) (must be odd).
+:param pob: int maximum population at each cell.
+:param density: int Number of Number of initial population nuclei.
+:param amplitud: float Gaussian filter width to blur the population.
+:param initial_diff: [(int,int)] Coordinate list of start diffusers
+:param p0: float Auto-difussion probability
+:param max_iter: int Maximum number of iterations
+:attribute space: np.array(N,N,dtype=np.int8) Available space
+:attribute _pop_array: np.array(N*N,pob,dtype=np.bool) array of inhabitants in each cell
+:attribute _infected_pop: list (space_idx,int) List of adoptive cell indices.
+                            The first entry is the flattened index of the cell in the space matrix
+                            and the second is the number of the settler in pop_array. That is,
+                            the list of addresses of each infected resident.
+:attribute results: np.array((N,N,max_iter)) Save results of each iteration.
+:attribute time_series: list int Propagation of each iteration.
+:attribute _clean: bool Indicates if Indicates if there are saved results.</p>
 
 </div>
 
