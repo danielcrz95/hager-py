@@ -26,21 +26,6 @@ nb_path: "00_hagerstrand.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/home/david/.local/lib/python3.8/site-packages/skimage/io/manage_plugins.py:23: UserWarning: Your installed pillow version is &lt; 7.1.0. Several security issues (CVE-2020-11538, CVE-2020-10379, CVE-2020-10994, CVE-2020-10177) have been fixed in pillow 7.1.0 or higher. We recommend to upgrade this library.
-  from .collection import imread_collection_wrapper
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
     {% endraw %}
 
@@ -171,8 +156,12 @@ nb_path: "00_hagerstrand.ipynb"
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>/home/plablo/miniconda3/envs/hager_py/lib/python3.7/site-packages/ipykernel_launcher.py:40: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+<pre>/tmp/ipykernel_3806098/88500435.py:36: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  dtype=np.bool)
+/tmp/ipykernel_3806098/1567949001.py:54: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  dtype=np.bool)
 </pre>
 </div>
 </div>
@@ -180,21 +169,12 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>acabé
-Hay 9130 adoptantes de un total de 50000 habitantes
-El total de iteraciones realizadas es 15
-acabé
-Hay 21656 adoptantes de un total de 50000 habitantes
-El total de iteraciones realizadas es 15
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/home/plablo/miniconda3/envs/hager_py/lib/python3.7/site-packages/ipykernel_launcher.py:54: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
-Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+<pre>finished
+There are 8575 adopters out of a total of 50000 inhabitants
+The total number of iterations performed is: 15
+finished
+There are 21572 adopters out of a total of 50000 inhabitants
+The total number of iterations performed is: 15
 </pre>
 </div>
 </div>
@@ -223,7 +203,7 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="AdvancedDiffusion" class="doc_header"><code>class</code> <code>AdvancedDiffusion</code><a href="https://github.com/CentroGeo/hager_py/tree/master/hager_py/hagerstrand.py#L309" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AdvancedDiffusion</code>(<strong><code>N</code></strong>=<em><code>100</code></em>, <strong><code>mif_size</code></strong>=<em><code>5</code></em>, <strong><code>pob</code></strong>=<em><code>20</code></em>, <strong><code>initial_diff</code></strong>=<em><code>[(50, 50)]</code></em>, <strong><code>p0</code></strong>=<em><code>0.3</code></em>, <strong><code>max_iter</code></strong>=<em><code>25</code></em>, <strong><code>density</code></strong>=<em><code>20</code></em>, <strong><code>amplitud</code></strong>=<em><code>4.0</code></em>) :: <a href="/hager_py/hagerstrand.html#Diffusion"><code>Diffusion</code></a></p>
+<h2 id="AdvancedDiffusion" class="doc_header"><code>class</code> <code>AdvancedDiffusion</code><a href="https://github.com/CentroGeo/hager_py/tree/master/hager_py/hagerstrand.py#L302" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>AdvancedDiffusion</code>(<strong><code>N</code></strong>=<em><code>100</code></em>, <strong><code>mif_size</code></strong>=<em><code>5</code></em>, <strong><code>pob</code></strong>=<em><code>20</code></em>, <strong><code>initial_diff</code></strong>=<em><code>[(50, 50)]</code></em>, <strong><code>p0</code></strong>=<em><code>0.3</code></em>, <strong><code>max_iter</code></strong>=<em><code>25</code></em>, <strong><code>density</code></strong>=<em><code>20</code></em>, <strong><code>amplitud</code></strong>=<em><code>4.0</code></em>) :: <a href="/hager_py/hagerstrand.html#Diffusion"><code>Diffusion</code></a></p>
 </blockquote>
 <p>Hägerstrand-based spatial diffusion model, with heterogeneous space.
 1.- Isotropic space
@@ -285,10 +265,12 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>/home/plablo/miniconda3/envs/hager_py/lib/python3.7/site-packages/ipykernel_launcher.py:40: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+<pre>/tmp/ipykernel_3806098/1748090621.py:35: DeprecationWarning: `np.int` is a deprecated alias for the builtin `int`. To silence this warning, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
-/home/plablo/miniconda3/envs/hager_py/lib/python3.7/site-packages/ipykernel_launcher.py:46: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
+  self.space[(points[0]).astype(np.int), (points[1]).astype(np.int)] = 1
+/tmp/ipykernel_3806098/1748090621.py:41: DeprecationWarning: `np.bool` is a deprecated alias for the builtin `bool`. To silence this warning, use `bool` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.bool_` here.
 Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+  dtype=np.bool)
 </pre>
 </div>
 </div>
@@ -296,9 +278,9 @@ Deprecated in NumPy 1.20; for more details and guidance: https://numpy.org/devdo
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>acabé
-Hay 24748 adoptantes de un total de 250000 habitantes
-El total de iteraciones realizadas es 25
+<pre>Done
+There are 26823 adoptants from a total of 250000 inhabitants
+The total number of iterations performed is 25
 </pre>
 </div>
 </div>
