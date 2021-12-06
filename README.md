@@ -1,10 +1,10 @@
-# Hager python 
+# Hager python
 
 
+
+![example workflow](https://github.com/CentroGeo/hager_py/actions/workflows/main.yml/badge.svg)
 
 ## Difusión espacial
-
-
 
 En este taller vamos a trabajar con una implementación en Python del modelo de difusión espacial de <a href ="http://en.wikipedia.org/wiki/Torsten_H%C3%A4gerstrand" target="_blank">Torsten Hägerstrand</a>. Este modelo es una simulación tipo [Monte Carlo](http://en.wikipedia.org/wiki/Monte_Carlo_method) del proceso de difusión de innovaciones concebido originalmente por Hagerstrand en 1953.
 Para este taller vamos a trabajar con la versión más simple del modelo, las suposiciones básicas son las siguientes:
@@ -23,8 +23,6 @@ La simulación Monte Carlo ocurre en dos etapas, para cada portador del mensaje:
 2. Se selecciona otro número al azar para elegir el habitante de la celda que recibe el mensaje. Si este habitante es también portador de la innovación, queda inalterado.
 
 Vamos ahora a jugar un poco con la implementación del modelo de Hagerstrand que está en esta misma carpeta.
-
-This file will become your README and also the index of your documentation.
 
 ## Install
 
@@ -52,10 +50,3 @@ s= SimpleDiffusion(100,100,5,20,[(20,20)],0.2,20)
 ```
 s.mixed_diffusion(0.7)
 ```
-
-    finished
-    There are 174182 adopters out of a total of 200000 inhabitants
-    The total number of iterations performed is: 20
-
-
-![example workflow](https://github.com/CentroGeo/hager_py/actions/workflows/main.yml/badge.svg)
