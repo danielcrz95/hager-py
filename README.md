@@ -6,7 +6,7 @@
 
 ## Difusión espacial
 
-En este taller vamos a trabajar con una implementación en Python del modelo de difusión espacial de <a href ="http://en.wikipedia.org/wiki/Torsten_H%C3%A4gerstrand" target="_blank">Torsten Hägerstrand</a>. Este modelo es una simulación tipo [Monte Carlo](http://en.wikipedia.org/wiki/Monte_Carlo_method) del proceso de difusión de innovaciones concebido originalmente por Hagerstrand en 1953.
+En este taller vamos a trabajar con una implementación en Python del modelo de difusión espacial de [Torsten Hägerstrand](http://en.wikipedia.org/wiki/Torsten_H%C3%A4gerstrand). Este modelo es una simulación tipo [Monte Carlo](http://en.wikipedia.org/wiki/Monte_Carlo_method) del proceso de difusión de innovaciones concebido originalmente por Hagerstrand en 1953.
 Para este taller vamos a trabajar con la versión más simple del modelo, las suposiciones básicas son las siguientes:
 
 1. Una sola persona tiene el *mensaje* al principio
